@@ -1,0 +1,10 @@
+# FROM ruby:3.2.2-alpine3.18
+
+# old version to support GitHub pages
+FROM ruby:2.7-alpine3.15
+# Add Jekyll dependencies to Alpine
+RUN apk update
+RUN apk add --no-cache build-base gcc cmake git
+
+# Update the Ruby bundler and install Jekyll
+RUN gem update --system && gem install sass-embedded -v 1.63.6 && gem update bundler &&  gem install bundler jekyll
