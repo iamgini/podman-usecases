@@ -124,7 +124,15 @@ See the container in Cockpit
 
 
 
+## Troubleshooting
+
+If the system is complaining about the `ip_unprivileged_port_start`, then change it from `1024` to `80` as follows and tet.
 
 ```
 sudo sysctl -w net.ipv4.ip_unprivileged_port_start=80
 ```
+
+## References
+
+- [paste.io](https://poste.io/doc/) documentation.
+- [How to run pods as systemd services with Podman](https://www.redhat.com/sysadmin/podman-run-pods-systemd-services)
