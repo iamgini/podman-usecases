@@ -1,5 +1,5 @@
 # podman-usecases
-Application using Podman and Docker
+Application using Podman and Containers
 
 ```shell
 cd podman-experiments
