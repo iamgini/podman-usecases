@@ -1,9 +1,21 @@
 # Mail server using Podman
 
+# all of this is run as a regular user not as root. no sudo needed.
+
+## Create the volume 
+
+``` shell
+podman volume mailserver-volume
+```
+
+## the volume is created in $HOME/.local/share/containers/storage/volumes/mailserver-volume
+## but what needs to be pointed to is the _data directory under that volume name
+## that _data directory is then passed to podman to be associaed with the /data directory of the container
+
 ## Start the mailserver container
 
 ```shell
-podman run -d --net=host -e TZ=Asia/Singapore -v ${PWD}/mailserver:/data:Z -it --name mailserver -h mail.example.org analogic/poste.io
+podman run -d --net=host -e TZ=Asia/Singapore -v $HOME/.local/share/continers/storage/volumes//mailserver-volume/_data:/data:Z -it --name mailserver -h mail.example.org analogic/poste.io
 ```
 
 Check container status
@@ -15,6 +27,7 @@ CONTAINER ID  IMAGE                               COMMAND     CREATED        STA
 ```
 
 ## Configure mailserver with Podman and Systemd
+## note: the --new flag will overwrite any existing service file of the same name
 
 ```shell
 $ cd $HOME/.config/systemd/user
@@ -87,7 +100,7 @@ ExecStart=/usr/bin/podman run \
 	-d \
 	--net=host \
 	-e TZ=Asia/Singapore \
-	-v /home/iamgini/workarea/podman-usecases/podman-mailserver/mailserver:/data:Z \
+	-v /home/iamgini/workarea/podman-usecases/podman-mailserver/mailserver-volume/_data:/data:Z \
 	-it \
 	--name mailserver \
 	-h mail.example.org analogic/poste.io
