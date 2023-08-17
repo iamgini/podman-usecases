@@ -1,0 +1,34 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    container_name: postgres
+    image: postgres
+    restart: always
+    ports:
+      - 5432:65432
+    volumes:
+      - ./psqldata:/var/lib/postgresql/data:Z
+    environment:
+      POSTGRES_PASSWORD: adminpassword
+
+  confluence:
+    container_name: confluence
+    image: atlassian/confluence
+    restart: always
+    ports:
+      - 8090:8090
+      - 8091:8091
+    environment:
+      POSTGRES_PASSWORD: adminpassword
+    volumes:
+      - ./confdata:/var/atlassian/application-data/confluence:Z
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
