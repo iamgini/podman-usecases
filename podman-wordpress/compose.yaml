@@ -17,6 +17,8 @@ services:
     expose:
       - 3306
       - 33060
+    networks: 
+      - wordpress
   wordpress:
     image: wordpress:latest
     ports:
@@ -27,8 +29,11 @@ services:
       - WORDPRESS_DB_USER=wordpress
       - WORDPRESS_DB_PASSWORD=wordpress
       - WORDPRESS_DB_NAME=wordpress
+    networks: 
+      - wordpress
 volumes:
   db_data:
-
+networks:
+  wordpress: {}
   
     
