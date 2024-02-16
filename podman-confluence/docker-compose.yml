@@ -10,7 +10,7 @@ services:
     ports:
       - 5432:65432
     volumes:
-      - ./psqldata:/var/lib/postgresql/data:Z
+      - postgres_data:/var/lib/postgresql/data:Z
     environment:
       POSTGRES_PASSWORD: adminpassword
 
@@ -24,7 +24,7 @@ services:
     environment:
       POSTGRES_PASSWORD: adminpassword
     volumes:
-      - ./confdata:/var/atlassian/application-data/confluence:Z
+      - confluence_data:/var/atlassian/application-data/confluence:Z
 
   adminer:
     container_name: adminer
@@ -32,3 +32,6 @@ services:
     restart: always
     ports:
       - 8080:8080
+volumes:
+  confluence_data:
+  postgres_data:
