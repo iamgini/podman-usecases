@@ -12,7 +12,8 @@ RUN mkdir -p /var/lib/nfs/rpc_pipefs /var/lib/nfs/v4recovery && \
 # Configure rpcbind for NFSv4
 RUN mkdir -p /run/rpcbind
 
-EXPOSE 2049 111/udp 111/tcp  # Expose necessary ports for NFS and rpcbind
+# Expose necessary ports for NFS and rpcbind
+EXPOSE 2049 111/udp 111/tcp
 
 # Entrypoint script to start NFS services
 COPY ./entrypoint.sh /usr/local/bin
