@@ -1,0 +1,17 @@
+version: '3.1'
+#"3.8"  # Specify the Docker Compose version
+
+services:
+  splunk:
+    image: docker.io/splunk/splunk:latest
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: splunkadmin
+    ports:
+      - "8000:8000"  # Map container port 8000 to host port 8000
+      - "8089:8089"  # Management Port
+      - "8065:8065"
+      - "8088:8088"  # Global HTTP Port Number
+
+# Important Note: Exposing the password in the environment section is not secure for production deployments.
+# Consider using environment variables passed at runtime or secrets management tools.
