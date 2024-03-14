@@ -1,11 +1,12 @@
 # Splunk in Podman
 
 ```shell
-cd podman-splunk
-podman-compose up -d
+$ cd podman-splunk
+$ podman-compose up -d
 # wait for a minute or so as the splunk will take some time to setup.
-podman-compose down
-podman images
+
+# Destroy container
+$ podman-compose down
 ```
 
 - Check the URL: `http://localhost:8000/en-US/account/login?return_to=%2Fen-US%2F`
@@ -16,7 +17,7 @@ podman images
 
 - Goto `Settings` -> `Data Inputs`
 - Select `Add New` button from `HTTP Event Collector`
-- Give name (eg: `aapcollector`) and leave other items as default.
+- Give name (eg: `automation`) and leave other items as default.
 - Review and submit; ensure you collected the Token.
 
 
@@ -24,7 +25,8 @@ podman images
 
 
 ```shell
-curl "http://localhost:8000/services/aapcollector" \
-    -H "Authorization: Splunk a3c4cc74-61ba-47b4-a1b4-ab08576b1d77" \
-    -d '{"event": "Hello, world!", "sourcetype": "manual"}'
+curl -kv "https://192.168.57.1:8088/services/collector/event" \
+    -H "Authorization: Splunk your-splunk-token" \
+    -H "Content-Type: application/json" \
+    -d '{"event": "I am using IP!", "sourcetype": "manual"}'
 ```

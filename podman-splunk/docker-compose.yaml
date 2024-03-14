@@ -9,7 +9,7 @@ services:
       SPLUNK_PASSWORD: splunkadmin
     ports:
       - "8000:8000"  # Map container port 8000 to host port 8000
-      - "8089:8089"  # Management Port
+      - "8089:8089"  # Management Port 8089
       - "8065:8065"
       - "8088:8088"  # Global HTTP Port Number
 
