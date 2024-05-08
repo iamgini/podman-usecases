@@ -10,9 +10,8 @@ podman run --rm -v ${PWD}:/data:Z -it localhost/jekyll:1.1 /bin/sh
 
 
 ```shell
-## Launch the container 
+## Launch the container
 podman run --rm -p 4000:4000 -v ${PWD}:/data:Z -it localhost/jekyll:1.3 sh -c "bundle install && bundle exec jekyll serve --host 0.0.0.0 --incremental"
-
 
 
 ## speed up page build
