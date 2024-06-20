@@ -10,9 +10,9 @@ services:
     volumes:
       - nessus_data:/opt/nessus/var/nessus
     environment:
-      ACCEPT_EULA: yes
-      USERNAME: tadmin
-      PASSWORD: tpassword
+      # ACCEPT_EULA: yes
+      # USERNAME: tadmin
+      # PASSWORD: tpassword
       # ACTIVATION_CODE: <code>
       # LINK_KEY=00abcd00000efgh11111i0k222lmopq3333st4455u66v777777w88xy9999zabc00
       # LINK_HOST=yourcompany.com
