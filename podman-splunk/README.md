@@ -30,3 +30,23 @@ curl -kv "https://192.168.57.1:8088/services/collector/event" \
     -H "Content-Type: application/json" \
     -d '{"event": "I am using IP!", "sourcetype": "manual"}'
 ```
+
+
+```shell
+curl -kv "https://192.168.57.1:8088/services/collector/event" \
+    -H "Authorization: Splunk your-splunk-token" \
+    -H "Content-Type: application/json" \
+    -d '{"event": "I am using IP!", "sourcetype": "manual"}'
+```
+
+{"event": "compliance audit", "node_name": "server1", "cis_rule": "1.3.2", "cis_rule_name": "Ensure httpd is disabled"}
+
+curl -kv "$SPLUNK_URL/services/collector/event" -H "Authorization: Splunk $SPLUNK_TOKEN" -H "Content-Type: application/json" -d '{"event": "compliance audit", "node_name": "server1", "cis_rule": "1.3.2", "cis_rule_name": "Ensure httpd is disabled"}'
+
+{
+  "event": "compliance audit",
+  "node_name": "server1",
+  "cis_rule": "1.3.2",
+  "cis_rule_name": "Ensure httpd is disabled"
+}
+{"event": "compliance audit", "node_name": "server1", "cis_rule": "1.3.2", "cis_rule_name": "Ensure httpd is disabled"}

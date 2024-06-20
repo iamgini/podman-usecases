@@ -1,0 +1,23 @@
+# version: '3.8'
+
+services:
+  nessus:
+    image: docker.io/tenable/nessus:latest-ubuntu
+    container_name: nessus
+    restart: always
+    ports:
+      - "8834:8834"
+    volumes:
+      - nessus_data:/opt/nessus/var/nessus
+    environment:
+      ACCEPT_EULA: yes
+      USERNAME: tadmin
+      PASSWORD: tpassword
+      # ACTIVATION_CODE: <code>
+      # LINK_KEY=00abcd00000efgh11111i0k222lmopq3333st4455u66v777777w88xy9999zabc00
+      # LINK_HOST=yourcompany.com
+      # LINK_PORT=8834
+
+volumes:
+  nessus_data:
+    # driver: local
