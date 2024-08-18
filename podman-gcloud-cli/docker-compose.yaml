@@ -1,0 +1,11 @@
+# version: '3.8'
+
+services:
+  gcloud-cli:
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:stable
+    container_name: gcloud-cli
+    volumes:
+      # Mount the GCP credentials
+      - ${HOME}/.config/gcloud-demo:$HOME/.config/gcloud/application_default_credentials.json
+    stdin_open: true  # Keep stdin open to interact with the container
+    tty: true  # Allocate a pseudo-TTY for the container
