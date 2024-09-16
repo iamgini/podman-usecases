@@ -12,8 +12,6 @@ services:
       - "8089:8089"  # Management Port 8089
       - "8065:8065"
       - "8088:8088"  # Global HTTP Port Number
-    # volumes:
-    #   - ./setup_splunk.sh:/opt/splunk/setup_splunk.sh:Z
-    # command: /bin/bash -c "/opt/splunk/setup_splunk.sh"
+
 # Important Note: Exposing the password in the environment section is not secure for production deployments.
 # Consider using environment variables passed at runtime or secrets management tools.

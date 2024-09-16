@@ -18,19 +18,7 @@ $ podman-compose down
 - Goto `Settings` -> `Data Inputs`
 - Select `Add New` button from `HTTP Event Collector`
 - Give name (eg: `automation`) and leave other items as default.
-- Review and submit; ensure you collected the Token.
-
-Automated way: execute the script after the Splunk setup is completed (check logs)
-
-```shell
-# Check logs
-$ podman logs -f podman-splunk_splunk_1
-
-# Once finished, copy execute script
-$ podman cp ./setup_splunk.sh podman-splunk_splunk_1:/opt/splunk/setup_splunk.sh
-
-$ podman exec -it podman-splunk_splunk_1 /bin/bash /opt/splunk/setup_splunk.sh
-```
+- Review and submit; ensure you collected the **Token**.
 
 
 ## Testing Splunk
