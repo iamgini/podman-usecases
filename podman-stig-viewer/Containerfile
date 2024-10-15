@@ -1,0 +1,34 @@
+# Use an appropriate base image (e.g., Ubuntu)
+FROM ubuntu:20.04
+
+# Set an environment variable for the STIG Viewer download URL (you can pass it at build time)
+ARG STIG_URL=https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_STIGViewer-linux_x64-3-4-0.zip
+
+# Set the working directory
+WORKDIR /tmp
+
+# Install required dependencies (e.g., fapolicyd, unzip)
+RUN apt-get update && \
+    apt-get install -y wget unzip
+    # fapolicyd
+
+# Create the directory for the STIG Viewer installation
+RUN mkdir -p /opt/stigviewer
+
+# Download and unzip the STIG Viewer package into the shared directory
+RUN wget ${STIG_URL} -O STIGViewer.zip && \
+    unzip STIGViewer.zip -d /opt && \
+    mv /opt/stig_viewer_3-linux-x64 /opt/stigviewer
+
+# Rename the executable to remove spaces in the filename
+RUN mv "/opt/stigviewer/stig_viewer_3-linux-x64/STIG Viewer 3" /opt/stigviewer/stig_viewer_3-linux-x64/STIGViewer
+
+# Add the STIG Viewer binaries to the fapolicyd trust database
+# RUN fapolicyd-cli --file add /opt/stigviewer && \
+#     fapolicyd-cli --update
+
+# Set the entry point to run STIG Viewer
+ENTRYPOINT ["/opt/stigviewer/stig_viewer_3-linux-x64/STIGViewer"]
+
+# In case a shell is needed to explore the container
+CMD ["/bin/bash"]
