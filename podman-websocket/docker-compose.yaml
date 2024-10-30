@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  websocket_server:
+    # build: .
+    image: localhost/websocket:1.1
+    ports:
+      - "5000:5000"  # Map port 5000 on the host to port 5000 in the container
+    volumes:
+      - .:/app  # Mount the current directory to /app in the container

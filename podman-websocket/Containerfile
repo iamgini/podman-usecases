@@ -1,0 +1,16 @@
+FROM python:3.9
+
+# Set the user to root
+USER root
+
+# Create app directory
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . .
+
+# Set the correct permissions
+RUN chmod +x app.py
+
+# Command to run your app
+CMD ["python", "app.py"]
