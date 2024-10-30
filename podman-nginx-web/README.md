@@ -1,0 +1,12 @@
+# Splunk in Podman
+
+```shell
+$ cd podman-splunk
+$ podman-compose up -d
+# wait for a minute or so as the splunk will take some time to setup.
+
+# Destroy container
+$ podman-compose down
+```
+
+- Check the URL: `http://localhost:8088`

@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  nginx-report-server:
+    image: nginx:latest
+    ports:
+      - "8088:80"      # Map container port 80 to host port 80 for HTTP
+      # - "443:443"    # Map container port 443 to host port 443 for HTTPS
+    volumes:
+      - "my_nginx_data:/usr/share/nginx/html:Z"
+    # environment:
+    #   NGINX_HOST: localhost
+    #   NGINX_PORT: 80
+
+volumes:
+  my_nginx_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: $HOME/ansible/ansible-real-life/ansible-dashboard-reporting/reports
