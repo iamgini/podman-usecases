@@ -9,5 +9,4 @@ $ podman-compose up -d
 $ podman-compose down
 ```
 
-- Check the URL: `http://localhost:8000/en-US/account/login?return_to=%2Fen-US%2F`
-- Use `admin` as username and the password configured in the `docker-compose.yaml` (eg: `SPLUNK_PASSWORD: splunkadmin`)
+- Username and access - TODO
