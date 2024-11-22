@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  web:
+    image: nginx:latest  # Pulls the official Nginx image
+    ports:
+      - "8080:80"        # Maps port 80 inside the container to port 8080 on your host
+    volumes:
+      - nginx-volume:/usr/share/nginx/html  # Mounts the local 'html' folder to the container's web root
+
+
+volumes:
+  nginx-volume:
+    external: false
