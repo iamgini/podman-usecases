@@ -20,7 +20,7 @@ services:
 
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "securepassword"
-      POSTGRES_DATABASE: "appdb"
+      POSTGRES_DB: "appdb"
 
     volumes:
       - postgresapp1:/var/lib/pgsql/data:Z
