@@ -6,16 +6,24 @@ services:
     ports:
       - "5433:5432" # Map container's PostgreSQL port to the host
     environment:
+      ## Important Note ##
+      ## Exposing the password in the environment section
+      ## is not secure for production deployments.
+      ## Consider using environment variables passed
+      ## at runtime or secrets management tools.
+
+      ## Use below variables if you are using the Red Hat image:
+      ## registry.redhat.io/rhel8/postgresql-15:latest
       # POSTGRESQL_USER: "admin"
       # POSTGRESQL_PASSWORD: "securepassword"
       # POSTGRESQL_DATABASE: "appdb"
+
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "securepassword"
       POSTGRES_DATABASE: "appdb"
+
     volumes:
       - postgresapp1:/var/lib/pgsql/data:Z
-# Important Note: Exposing the password in the environment section is not secure for production deployments.
-# Consider using environment variables passed at runtime or secrets management tools.
 
 volumes:
   postgresapp1:
