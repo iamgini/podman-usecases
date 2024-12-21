@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  myjellyfin:
+    image: docker.io/jellyfin/jellyfin:latest
+    container_name: myjellyfin
+    labels:
+      io.containers.autoupdate: "registry"
+    ports:
+      - "8096:8096/tcp"
+    restart: "no" # Equivalent to --rm in Podman, as containers won't restart on failure
+    user: "${UID}:${GID}" # Matches host user and group IDs dynamically
+    userns_mode: "keep-id"
+    volumes:
+      - jellyfin-cache:/cache:Z
+      - jellyfin-config:/config:Z
+      # - /path/to/media:/media:ro,Z
+      # - /home/user/Pictures:/photos:ro,Z
+
+volumes:
+  jellyfin-cache:
+    driver: local
+  jellyfin-config:
+    driver: local
