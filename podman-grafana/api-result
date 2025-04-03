@@ -1,0 +1,228 @@
+GET /api/controller/v2/metrics/
+HTTP 200 OK
+Allow: GET, HEAD, OPTIONS
+Content-Type: text/plain ;utf-8
+Vary: Accept
+X-API-Node: aap25.lab.iamgini.com
+X-API-Product-Name: Red Hat Ansible Automation Platform
+X-API-Product-Version: 4.6.9
+
+# HELP awx_system_info AWX System Information
+# TYPE awx_system_info gauge
+awx_system_info{external_logger_enabled="False",external_logger_type="None",insights_analytics="True",install_uuid="5566c409-cd26-4e29-99ab-2199a0c0e87d",license_expiry="55130282",license_type="enterprise",pendo_tracking="off",tower_url_base="https://aap25.lab.iamgini.com",tower_version="4.6.9"} 1.0
+# HELP awx_organizations_total Number of organizations
+# TYPE awx_organizations_total gauge
+awx_organizations_total 1.0
+# HELP awx_users_total Number of users
+# TYPE awx_users_total gauge
+awx_users_total 1.0
+# HELP awx_teams_total Number of teams
+# TYPE awx_teams_total gauge
+awx_teams_total 0.0
+# HELP awx_inventories_total Number of inventories
+# TYPE awx_inventories_total gauge
+awx_inventories_total 2.0
+# HELP awx_projects_total Number of projects
+# TYPE awx_projects_total gauge
+awx_projects_total 2.0
+# HELP awx_job_templates_total Number of job templates
+# TYPE awx_job_templates_total gauge
+awx_job_templates_total 2.0
+# HELP awx_workflow_job_templates_total Number of workflow job templates
+# TYPE awx_workflow_job_templates_total gauge
+awx_workflow_job_templates_total 0.0
+# HELP awx_hosts_total Number of hosts
+# TYPE awx_hosts_total gauge
+awx_hosts_total{type="all"} 19.0
+awx_hosts_total{type="active"} 19.0
+# HELP awx_schedules_total Number of schedules
+# TYPE awx_schedules_total gauge
+awx_schedules_total 4.0
+# HELP awx_sessions_total Number of sessions
+# TYPE awx_sessions_total gauge
+awx_sessions_total{type="all"} 0.0
+awx_sessions_total{type="user"} 0.0
+awx_sessions_total{type="anonymous"} 0.0
+# HELP awx_running_jobs_total Number of running jobs on the system
+# TYPE awx_running_jobs_total gauge
+awx_running_jobs_total 0.0
+# HELP awx_pending_jobs_total Number of pending jobs on the system
+# TYPE awx_pending_jobs_total gauge
+awx_pending_jobs_total 0.0
+# HELP awx_status_total Status of Job launched
+# TYPE awx_status_total gauge
+awx_status_total{status="waiting"} 0.0
+awx_status_total{status="pending"} 0.0
+awx_status_total{status="canceled"} 0.0
+awx_status_total{status="failed"} 1.0
+awx_status_total{status="successful"} 7.0
+awx_status_total{status="error"} 0.0
+awx_status_total{status="running"} 0.0
+# HELP awx_instance_capacity Capacity of each node in the system
+# TYPE awx_instance_capacity gauge
+awx_instance_capacity{hostname="aap25.lab.iamgini.com",instance_uuid="10ed18a7-64bd-de48-b284-dcdbf62cf268",node_type="hybrid"} 58.0
+# HELP awx_instance_cpu CPU cores on each node in the system
+# TYPE awx_instance_cpu gauge
+awx_instance_cpu{hostname="aap25.lab.iamgini.com",instance_uuid="10ed18a7-64bd-de48-b284-dcdbf62cf268"} 6.0
+# HELP awx_instance_memory RAM (Kb) on each node in the system
+# TYPE awx_instance_memory gauge
+awx_instance_memory{hostname="aap25.lab.iamgini.com",instance_uuid="10ed18a7-64bd-de48-b284-dcdbf62cf268"} 8.250195968e+09
+# HELP awx_instance_info Info about each node in the system
+# TYPE awx_instance_info gauge
+awx_instance_info{enabled="True",hostname="aap25.lab.iamgini.com",instance_uuid="10ed18a7-64bd-de48-b284-dcdbf62cf268",managed_by_policy="True",node_type="hybrid",version="4.6.9"} 1.0
+# HELP awx_instance_launch_type_total Type of Job launched
+# TYPE awx_instance_launch_type_total gauge
+awx_instance_launch_type_total{launch_type="manual",node="aap25.lab.iamgini.com"} 8.0
+# HELP awx_instance_status_total Status of Job launched
+# TYPE awx_instance_status_total gauge
+awx_instance_status_total{node="aap25.lab.iamgini.com",status="failed"} 1.0
+awx_instance_status_total{node="aap25.lab.iamgini.com",status="successful"} 7.0
+# HELP awx_instance_consumed_capacity Consumed capacity of each node in the system
+# TYPE awx_instance_consumed_capacity gauge
+awx_instance_consumed_capacity{hostname="aap25.lab.iamgini.com",instance_uuid="10ed18a7-64bd-de48-b284-dcdbf62cf268",node_type="hybrid"} 0.0
+# HELP awx_instance_remaining_capacity Remaining capacity of each node in the system
+# TYPE awx_instance_remaining_capacity gauge
+awx_instance_remaining_capacity{hostname="aap25.lab.iamgini.com",instance_uuid="10ed18a7-64bd-de48-b284-dcdbf62cf268",node_type="hybrid"} 58.0
+# HELP awx_license_instance_total Total number of managed hosts provided by your license
+# TYPE awx_license_instance_total gauge
+awx_license_instance_total 100.0
+# HELP awx_license_instance_free Number of remaining managed hosts provided by your license
+# TYPE awx_license_instance_free gauge
+awx_license_instance_free 99.0
+# HELP awx_database_connections_total Number of connections to database
+# TYPE awx_database_connections_total gauge
+awx_database_connections_total 10.0
+# HELP task_manager_get_tasks_seconds Time spent in loading tasks from db
+# TYPE task_manager_get_tasks_seconds gauge
+task_manager_get_tasks_seconds{node="aap25.lab.iamgini.com"} 0.006095946999721491
+# HELP task_manager_start_task_seconds Time spent starting task
+# TYPE task_manager_start_task_seconds gauge
+task_manager_start_task_seconds{node="aap25.lab.iamgini.com"} 0.0
+# HELP task_manager_process_running_tasks_seconds Time spent processing running tasks
+# TYPE task_manager_process_running_tasks_seconds gauge
+task_manager_process_running_tasks_seconds{node="aap25.lab.iamgini.com"} 0.0
+# HELP task_manager_process_pending_tasks_seconds Time spent processing pending tasks
+# TYPE task_manager_process_pending_tasks_seconds gauge
+task_manager_process_pending_tasks_seconds{node="aap25.lab.iamgini.com"} 0.0
+# HELP task_manager__schedule_seconds Time spent in running the entire _schedule
+# TYPE task_manager__schedule_seconds gauge
+task_manager__schedule_seconds{node="aap25.lab.iamgini.com"} 0.021776750999833894
+# HELP task_manager__schedule_calls Number of calls to _schedule, after lock is acquired
+# TYPE task_manager__schedule_calls gauge
+task_manager__schedule_calls{node="aap25.lab.iamgini.com"} 127
+# HELP task_manager_recorded_timestamp Unix timestamp when metrics were last recorded
+# TYPE task_manager_recorded_timestamp gauge
+task_manager_recorded_timestamp{node="aap25.lab.iamgini.com"} 1743649303.0988634
+# HELP task_manager_tasks_started Number of tasks started
+# TYPE task_manager_tasks_started gauge
+task_manager_tasks_started{node="aap25.lab.iamgini.com"} 0
+# HELP task_manager_running_processed Number of running tasks processed
+# TYPE task_manager_running_processed gauge
+task_manager_running_processed{node="aap25.lab.iamgini.com"} 0
+# HELP task_manager_pending_processed Number of pending tasks processed
+# TYPE task_manager_pending_processed gauge
+task_manager_pending_processed{node="aap25.lab.iamgini.com"} 0
+# HELP task_manager_tasks_blocked Number of tasks blocked from running
+# TYPE task_manager_tasks_blocked gauge
+task_manager_tasks_blocked{node="aap25.lab.iamgini.com"} 0
+# HELP task_manager_commit_seconds Time spent in db transaction, including on_commit calls
+# TYPE task_manager_commit_seconds gauge
+task_manager_commit_seconds{node="aap25.lab.iamgini.com"} 0.0005548000335693359
+# HELP dependency_manager_get_tasks_seconds Time spent loading pending tasks from db
+# TYPE dependency_manager_get_tasks_seconds gauge
+dependency_manager_get_tasks_seconds{node="aap25.lab.iamgini.com"} 0.004127463000259013
+# HELP dependency_manager_generate_dependencies_seconds Time spent generating dependencies for pending tasks
+# TYPE dependency_manager_generate_dependencies_seconds gauge
+dependency_manager_generate_dependencies_seconds{node="aap25.lab.iamgini.com"} 0.0
+# HELP dependency_manager__schedule_seconds Time spent in running the entire _schedule
+# TYPE dependency_manager__schedule_seconds gauge
+dependency_manager__schedule_seconds{node="aap25.lab.iamgini.com"} 0.004136562999974558
+# HELP dependency_manager__schedule_calls Number of calls to _schedule, after lock is acquired
+# TYPE dependency_manager__schedule_calls gauge
+dependency_manager__schedule_calls{node="aap25.lab.iamgini.com"} 127
+# HELP dependency_manager_recorded_timestamp Unix timestamp when metrics were last recorded
+# TYPE dependency_manager_recorded_timestamp gauge
+dependency_manager_recorded_timestamp{node="aap25.lab.iamgini.com"} 1743649304.0617392
+# HELP dependency_manager_pending_processed Number of pending tasks processed
+# TYPE dependency_manager_pending_processed gauge
+dependency_manager_pending_processed{node="aap25.lab.iamgini.com"} 0
+# HELP workflow_manager__schedule_seconds Time spent in running the entire _schedule
+# TYPE workflow_manager__schedule_seconds gauge
+workflow_manager__schedule_seconds{node="aap25.lab.iamgini.com"} 0.0
+# HELP workflow_manager__schedule_calls Number of calls to _schedule, after lock is acquired
+# TYPE workflow_manager__schedule_calls gauge
+workflow_manager__schedule_calls{node="aap25.lab.iamgini.com"} 0
+# HELP workflow_manager_recorded_timestamp Unix timestamp when metrics were last recorded
+# TYPE workflow_manager_recorded_timestamp gauge
+workflow_manager_recorded_timestamp{node="aap25.lab.iamgini.com"} 0.0
+# HELP workflow_manager_spawn_workflow_graph_jobs_seconds Time spent spawning workflow tasks
+# TYPE workflow_manager_spawn_workflow_graph_jobs_seconds gauge
+workflow_manager_spawn_workflow_graph_jobs_seconds{node="aap25.lab.iamgini.com"} 0.0
+# HELP workflow_manager_get_tasks_seconds Time spent loading workflow tasks from db
+# TYPE workflow_manager_get_tasks_seconds gauge
+workflow_manager_get_tasks_seconds{node="aap25.lab.iamgini.com"} 0.0
+# HELP dispatcher_pool_scale_up_events Number of times local dispatcher scaled up a worker since startup
+# TYPE dispatcher_pool_scale_up_events gauge
+dispatcher_pool_scale_up_events{node="aap25.lab.iamgini.com"} 4
+# HELP dispatcher_pool_active_task_count Number of active tasks in the worker pool when last task was submitted
+# TYPE dispatcher_pool_active_task_count gauge
+dispatcher_pool_active_task_count{node="aap25.lab.iamgini.com"} 1
+# HELP dispatcher_pool_max_worker_count Highest number of workers in worker pool in last collection interval, about 20s
+# TYPE dispatcher_pool_max_worker_count gauge
+dispatcher_pool_max_worker_count{node="aap25.lab.iamgini.com"} 4
+# HELP dispatcher_availability Fraction of time (in last collection interval) dispatcher was able to receive messages
+# TYPE dispatcher_availability gauge
+dispatcher_availability{node="aap25.lab.iamgini.com"} 0.9979643813666977
+# HELP subsystem_metrics_pipe_execute_seconds Time spent saving metrics to redis
+# TYPE subsystem_metrics_pipe_execute_seconds gauge
+subsystem_metrics_pipe_execute_seconds{node="aap25.lab.iamgini.com"} 0.5331893070037097
+# HELP subsystem_metrics_pipe_execute_calls Number of calls to pipe_execute
+# TYPE subsystem_metrics_pipe_execute_calls gauge
+subsystem_metrics_pipe_execute_calls{node="aap25.lab.iamgini.com"} 630
+# HELP subsystem_metrics_send_metrics_seconds Time spent sending metrics to other nodes
+# TYPE subsystem_metrics_send_metrics_seconds gauge
+subsystem_metrics_send_metrics_seconds{node="aap25.lab.iamgini.com"} 2.1575647179974595
+# HELP callback_receiver_events_queue_size_redis Current number of events in redis queue
+# TYPE callback_receiver_events_queue_size_redis gauge
+callback_receiver_events_queue_size_redis{node="aap25.lab.iamgini.com"} 0
+# HELP callback_receiver_events_popped_redis Number of events popped from redis
+# TYPE callback_receiver_events_popped_redis gauge
+callback_receiver_events_popped_redis{node="aap25.lab.iamgini.com"} 242
+# HELP callback_receiver_events_in_memory Current number of events in memory (in transfer from redis to db)
+# TYPE callback_receiver_events_in_memory gauge
+callback_receiver_events_in_memory{node="aap25.lab.iamgini.com"} 0
+# HELP callback_receiver_batch_events_errors Number of times batch insertion failed
+# TYPE callback_receiver_batch_events_errors gauge
+callback_receiver_batch_events_errors{node="aap25.lab.iamgini.com"} 0
+# HELP callback_receiver_events_insert_db_seconds Total time spent saving events to database
+# TYPE callback_receiver_events_insert_db_seconds gauge
+callback_receiver_events_insert_db_seconds{node="aap25.lab.iamgini.com"} 5.564871970001491
+# HELP callback_receiver_events_insert_db Number of events batch inserted into database
+# TYPE callback_receiver_events_insert_db gauge
+callback_receiver_events_insert_db{node="aap25.lab.iamgini.com"} 233
+# HELP callback_receiver_events_broadcast Number of events broadcast to other control plane nodes
+# TYPE callback_receiver_events_broadcast gauge
+callback_receiver_events_broadcast{node="aap25.lab.iamgini.com"} 188
+# HELP callback_receiver_batch_events_insert_db Number of events batch inserted into database
+# TYPE callback_receiver_batch_events_insert_db histogram
+callback_receiver_batch_events_insert_db_bucket{le="10",node="aap25.lab.iamgini.com"} 77
+callback_receiver_batch_events_insert_db_bucket{le="50",node="aap25.lab.iamgini.com"} 80
+callback_receiver_batch_events_insert_db_bucket{le="150",node="aap25.lab.iamgini.com"} 80
+callback_receiver_batch_events_insert_db_bucket{le="350",node="aap25.lab.iamgini.com"} 80
+callback_receiver_batch_events_insert_db_bucket{le="650",node="aap25.lab.iamgini.com"} 80
+callback_receiver_batch_events_insert_db_bucket{le="2000",node="aap25.lab.iamgini.com"} 80
+callback_receiver_batch_events_insert_db_bucket{le="+Inf",node="aap25.lab.iamgini.com"} 80
+callback_receiver_batch_events_insert_db_count{node="aap25.lab.iamgini.com"} 80
+callback_receiver_batch_events_insert_db_sum{node="aap25.lab.iamgini.com"} 233
+# HELP callback_receiver_event_processing_avg_seconds Average processing time per event per callback receiver batch
+# TYPE callback_receiver_event_processing_avg_seconds gauge
+callback_receiver_event_processing_avg_seconds{node="aap25.lab.iamgini.com"} 0.908935
+# HELP subsystem_metrics_pipe_execute_seconds Time spent saving metrics to redis
+# TYPE subsystem_metrics_pipe_execute_seconds gauge
+subsystem_metrics_pipe_execute_seconds{node="aap25.lab.iamgini.com"} 0.0
+# HELP subsystem_metrics_pipe_execute_calls Number of calls to pipe_execute
+# TYPE subsystem_metrics_pipe_execute_calls gauge
+subsystem_metrics_pipe_execute_calls{node="aap25.lab.iamgini.com"} 0
+# HELP subsystem_metrics_send_metrics_seconds Time spent sending metrics to other nodes
+# TYPE subsystem_metrics_send_metrics_seconds gauge
+subsystem_metrics_send_metrics_seconds{node="aap25.lab.iamgini.com"} 0.0

@@ -2,6 +2,10 @@
 Application using Podman and Containers
 
 ```shell
+$ pip install --user podman-compose
+```
+
+```shell
 cd podman-experiments
 podman-compose up -d
 podman-compose down
@@ -10,7 +14,7 @@ podman images
 
 ## Troubleshooting
 
-### Write permission error while mounting local directory 
+### Write permission error while mounting local directory
 
 Error sample:
 
