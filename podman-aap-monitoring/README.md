@@ -1,4 +1,6 @@
-# Grafana in Podman
+# Grafana and Prometheus in Podman
+
+This is prepared for monitoring the Red Hat Ansible Automation Platform.
 
 ```shell
 $ cd podman-grafana

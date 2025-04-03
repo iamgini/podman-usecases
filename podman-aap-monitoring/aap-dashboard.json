@@ -71,23 +71,30 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 3,
-        "x": 1,
+        "h": 3,
+        "w": 6,
+        "x": 0,
         "y": 1
       },
       "id": 14,
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "RHAAP",
+          "url": "https://www.redhat.com/en/technologies/management/ansible"
+        }
+      ],
       "options": {
         "code": {
           "language": "plaintext",
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<!-- <img src=\"https://www.ansible.com/hubfs/Logo-Red_Hat-Ansible_Automation_Platform-A-Standard.svg\"> -->\n<img src=\"https://www.redhat.com/cms/managed-files/ansible-logo_0_0.png\" width=\"200px\" height=\"200px\">\n",
-        "mode": "html"
+        "content": "",
+        "mode": "markdown"
       },
       "pluginVersion": "11.6.0",
-      "title": "",
+      "title": "Red Hat Ansible Automation Platform",
       "transparent": true,
       "type": "text"
     },
@@ -115,7 +122,7 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 5,
+        "x": 6,
         "y": 1
       },
       "id": 48,
@@ -209,7 +216,7 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 8,
+        "x": 9,
         "y": 1
       },
       "id": 12,
@@ -258,101 +265,6 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "rgb(255, 255, 255)",
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "noValue": "0",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue"
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "external_logger_enabled"
-            },
-            "properties": [
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "options": {
-                      "False": {
-                        "color": "blue",
-                        "index": 1
-                      },
-                      "True": {
-                        "color": "green",
-                        "index": 0
-                      }
-                    },
-                    "type": "value"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 11,
-        "y": 1
-      },
-      "id": 15,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/^external_logger_enabled$/",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {},
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "awx_system_info",
-          "format": "table",
-          "hide": false,
-          "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "External Logger",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
             "mode": "thresholds"
           },
           "mappings": [],
@@ -369,8 +281,8 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 3,
-        "x": 14,
+        "w": 4,
+        "x": 12,
         "y": 1
       },
       "id": 6,
@@ -436,8 +348,8 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 3,
-        "x": 17,
+        "w": 4,
+        "x": 16,
         "y": 1
       },
       "id": 10,
@@ -579,7 +491,7 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 5,
+        "x": 0,
         "y": 4
       },
       "id": 3,
@@ -645,7 +557,7 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 8,
+        "x": 3,
         "y": 4
       },
       "id": 4,
@@ -718,7 +630,7 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 11,
+        "x": 6,
         "y": 4
       },
       "id": 17,
@@ -756,6 +668,101 @@
         }
       ],
       "title": "Instances",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "rgb(255, 255, 255)",
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue"
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "external_logger_enabled"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "False": {
+                        "color": "blue",
+                        "index": 1
+                      },
+                      "True": {
+                        "color": "green",
+                        "index": 0
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 9,
+        "y": 4
+      },
+      "id": 15,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^external_logger_enabled$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {},
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "awx_system_info",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "External Logger",
       "type": "stat"
     },
     {
@@ -2130,5 +2137,5 @@
   "timezone": "",
   "title": "AAP - Metrics",
   "uid": "aehnjtofrtt6ob",
-  "version": 7
+  "version": 9
 }
