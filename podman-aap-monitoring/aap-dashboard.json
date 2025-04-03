@@ -118,7 +118,7 @@
         "x": 5,
         "y": 1
       },
-      "id": 2,
+      "id": 47,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -171,6 +171,14 @@
             "steps": [
               {
                 "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": ""
               }
             ]
           }
@@ -179,13 +187,13 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 5,
+        "w": 2,
         "x": 7,
         "y": 1
       },
-      "id": 3,
+      "id": 17,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -194,7 +202,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^license_type$/",
+          "fields": "",
           "values": false
         },
         "showPercentChange": false,
@@ -210,15 +218,14 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "awx_system_info",
-          "format": "table",
-          "instant": true,
+          "expr": "count(awx_instance_info{})",
           "interval": "",
           "legendFormat": "",
+          "range": true,
           "refId": "A"
         }
       ],
-      "title": "License Type",
+      "title": "Instances",
       "type": "stat"
     },
     {
@@ -274,7 +281,7 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 12,
+        "x": 9,
         "y": 1
       },
       "id": 12,
@@ -314,6 +321,101 @@
         }
       ],
       "title": "Insights ",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "rgb(255, 255, 255)",
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue"
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "external_logger_enabled"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "False": {
+                        "color": "blue",
+                        "index": 1
+                      },
+                      "True": {
+                        "color": "green",
+                        "index": 0
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 12,
+        "y": 1
+      },
+      "id": 15,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^external_logger_enabled$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {},
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "awx_system_info",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "External Logger",
       "type": "stat"
     },
     {
@@ -540,14 +642,6 @@
             "steps": [
               {
                 "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 0
-              },
-              {
-                "color": "green",
-                "value": ""
               }
             ]
           }
@@ -556,13 +650,13 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 2,
+        "w": 5,
         "x": 5,
         "y": 4
       },
-      "id": 17,
+      "id": 3,
       "options": {
-        "colorMode": "background",
+        "colorMode": "value",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -571,7 +665,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^license_type$/",
           "values": false
         },
         "showPercentChange": false,
@@ -587,14 +681,15 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "count(awx_instance_info{job=~\"$service\",pod=~\"$pod\"})",
+          "expr": "awx_system_info",
+          "format": "table",
+          "instant": true,
           "interval": "",
           "legendFormat": "",
-          "range": true,
           "refId": "A"
         }
       ],
-      "title": "Instances",
+      "title": "License Type",
       "type": "stat"
     },
     {
@@ -622,7 +717,7 @@
       "gridPos": {
         "h": 3,
         "w": 5,
-        "x": 7,
+        "x": 10,
         "y": 4
       },
       "id": 4,
@@ -661,101 +756,6 @@
         }
       ],
       "title": "License Expiry",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "rgb(255, 255, 255)",
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "noValue": "0",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue"
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "external_logger_enabled"
-            },
-            "properties": [
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "options": {
-                      "False": {
-                        "color": "blue",
-                        "index": 1
-                      },
-                      "True": {
-                        "color": "green",
-                        "index": 0
-                      }
-                    },
-                    "type": "value"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 12,
-        "y": 4
-      },
-      "id": 15,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/^external_logger_enabled$/",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {},
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "awx_system_info",
-          "format": "table",
-          "hide": false,
-          "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "External Logger",
       "type": "stat"
     },
     {
@@ -1429,7 +1429,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(rate(container_memory_working_set_bytes{namespace=~\"$namespace\",container!=\"POD\",pod!=\"\"}[15m])) by (container)",
+          "expr": "sum(rate(awx_instance_memory[15m])) ",
           "hide": false,
           "interval": "",
           "legendFormat": "{{ container }}",
@@ -2130,5 +2130,5 @@
   "timezone": "",
   "title": "AAP - Metrics",
   "uid": "aehnjtofrtt6ob",
-  "version": 4
+  "version": 5
 }
