@@ -4,9 +4,10 @@
 $ cd podman-grafana
 $ podman-compose up -d
 
-# Destroy container
+# Destroy containers
 $ podman-compose down
 ```
+
 
 ## Adding AAP Dashboard.
 
@@ -19,6 +20,9 @@ Fix the SELinux and permission of `prometheus.yml`
 $ chmod 644 ./prometheus.yml
 $ chcon -R -t container_file_t ./prometheus.yml
 ```
+## Dashboard
+
+Version: `awx_instance_info{job=~"$service"}`
 
 ## References
 
