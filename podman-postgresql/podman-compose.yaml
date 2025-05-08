@@ -5,6 +5,7 @@ services:
     container_name: postgresql-app1
     ports:
       - "5433:5432" # Map container's PostgreSQL port to the host
+    # network_mode: "host"
     environment:
       ## Important Note ##
       ## Exposing the password in the environment section
@@ -25,6 +26,12 @@ services:
     volumes:
       - postgresapp1:/var/lib/pgsql/data:Z
 
+  adminer-pgsql:
+    container_name: adminer-pgsql
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 volumes:
   postgresapp1:
     driver: local
