@@ -32,13 +32,14 @@ $ podman cp ./setup_splunk.sh podman-splunk_splunk_1:/opt/splunk/setup_splunk.sh
 $ podman exec -it podman-splunk_splunk_1 /bin/bash /opt/splunk/setup_splunk.sh
 ```
 
-
 ## Testing Splunk
 
-
 ```shell
-curl -kv "https://192.168.57.1:8088/services/collector/event" \
-    -H "Authorization: Splunk your-splunk-token" \
+export SPLUNK_TOKEN=<your-token>
+export SPLUNK_URL=https://192.168.57.1:8088
+
+curl -kv "$SPLUNK_URL/services/collector/event" \
+    -H "Authorization: Splunk $SPLUNK_TOKEN" \
     -H "Content-Type: application/json" \
     -d '{"event": "I am using IP!", "sourcetype": "manual"}'
 ```
@@ -51,8 +52,35 @@ curl -kv "https://192.168.57.1:8088/services/collector/event" \
     -d '{"event": "I am using IP!", "sourcetype": "manual"}'
 ```
 
+## Sample search query
+
+```
+source="http:automation" (index="history" OR index="main" OR index="summary")
+```
+
+## Delete logs for testing
+
+```
+source="http:automation" (index="history" OR index="main" OR index="summary") | delete
+```
+
+### Grant can_delete via Splunk Web UI
+
+- Login to Splunk Web as an admin user(usually at https://<your-splunk-host>:8000)
+- Go to: Settings → Access Controls → Roles
+- Click on the role you want to modify (e.g. admin, or your custom role)
+- Scroll down to Capabilities
+- ✅ Check the box for can_delete
+- Click Save
+- 🔄 Log out and log back in to apply changes (sometimes needed)
+
+## Sample JSON output
+
+```json
 {"event": "compliance audit", "node_name": "server1", "cis_rule": "1.3.2", "cis_rule_name": "Ensure httpd is disabled"}
+```
 
+```shell
 curl -kv "$SPLUNK_URL/services/collector/event" -H "Authorization: Splunk $SPLUNK_TOKEN" -H "Content-Type: application/json" -d '{"event": "compliance audit", "node_name": "server1", "cis_rule": "1.3.2", "cis_rule_name": "Ensure httpd is disabled"}'
 
 {
@@ -62,3 +90,4 @@ curl -kv "$SPLUNK_URL/services/collector/event" -H "Authorization: Splunk $SPLUN
   "cis_rule_name": "Ensure httpd is disabled"
 }
 {"event": "compliance audit", "node_name": "server1", "cis_rule": "1.3.2", "cis_rule_name": "Ensure httpd is disabled"}
+```
