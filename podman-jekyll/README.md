@@ -5,6 +5,7 @@
 ```shell
 podman build -t jekyll:1.1 .
 
+# Test container image
 podman run --rm -v ${PWD}:/data:Z -it localhost/jekyll:1.1 /bin/sh
 ```
 
