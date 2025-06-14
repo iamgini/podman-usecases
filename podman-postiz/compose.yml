@@ -1,3 +1,4 @@
+version: "3.9"
 services:
   postiz:
     image: ghcr.io/gitroomhq/postiz-app:latest
@@ -68,16 +69,20 @@ services:
 
 volumes:
   postgres-volume:
-    external: false
+    # external: false
+    driver: local
 
   postiz-redis-data:
-    external: false
+    # external: false
+    driver: local
 
   postiz-config:
-    external: false
+    # external: false
+    driver: local
 
   postiz-uploads:
-    external: false
+    # external: false
+    driver: local
 
 networks:
   postiz-network:
