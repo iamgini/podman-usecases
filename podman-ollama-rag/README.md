@@ -25,3 +25,21 @@ $ podman-compose down
   - Ollama Base URL: `http://ollama:11434`
   - Model: `Ollama`
   - Embedding Model: Choose `nomic-embed-text:latest`
+
+
+
+## Backup - on GitHub Codespace
+
+```shell
+curl -fsSL https://ollama.com/install.sh | sh
+
+podman run -d --network=host -v open-webui:/app/backend/data -e OLLAMA_BASE_URL=http://127.0.0.1:11434 --name open-webui --restart always ghcr.io/open-webui/open-webui:main
+
+sudo apt update
+sudo apt install -y podman
+
+podman run -d --network=host -v open-webui:/app/backend/data -e OLLAMA_BASE_URL=http://127.0.0.1:11434 --name open-webui --restart always ghcr.io/open-webui/open-webui:main
+
+ollama serve
+ollama pull llama3.2
+```    
