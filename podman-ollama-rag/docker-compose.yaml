@@ -1,0 +1,39 @@
+services:
+  ollama:
+    image: docker.io/ollama/ollama:latest
+    container_name: ollama
+    security_opt:
+      - label=disable
+    restart: always
+    volumes:
+      - ollama_data:/root/.ollama:Z
+    # NVIDIA devices removed for CPU compatibility
+    networks:
+      - rag_network
+
+  anythingllm:
+    image: docker.io/mintplexlabs/anythingllm:latest
+    container_name: anythingllm
+    security_opt:
+      - label=disable
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      - STORAGE_DIR=/app/storage
+    volumes:
+      - anythingllm_storage:/app/storage:Z
+      - /home/gmadappa/test:/app/collector/hotdir:Z
+    depends_on:
+      - ollama
+    networks:
+      - rag_network
+
+networks:
+  rag_network:
+    driver: bridge
+
+volumes:
+  ollama_data:
+  anythingllm_storage:
+  anythingllm_hotdir:
