@@ -1,4 +1,4 @@
-# Splunk in Podman
+# Ollama in Podman
 
 ```shell
 $ cd podman-splunk
