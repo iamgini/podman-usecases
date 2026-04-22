@@ -1,0 +1,30 @@
+---
+# Ollama Local AI - Podman Compose
+# Usage:
+#   podman-compose up -d        # start
+#   podman-compose down         # stop
+#   podman-compose logs -f      # follow logs
+#
+# First run - pull the model:
+#   podman exec -it ollama-local ollama pull gemma4:e4b
+
+version: "3.9"
+
+services:
+  ollama:
+    image: docker.io/ollama/ollama:latest
+    container_name: ollama-local
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama:Z
+    # environment:
+    #   - OLLAMA_KEEP_ALIVE=5m      # unload model after 5min idle (saves RAM)
+    #   - OLLAMA_NUM_PARALLEL=1     # limit parallel requests (laptop-friendly)
+    # Intel integrated GPU (CometLake UHD) - not supported by Ollama
+    # Running CPU-only - fine for text rewriting tasks
+
+volumes:
+  ollama-data:
+    driver: local

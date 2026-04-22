@@ -1,7 +1,7 @@
 # Ollama in Podman
 
 ```shell
-$ cd podman-splunk
+$ cd podman-ollama-rag
 $ podman-compose up -d
 # wait for a minute or so as the splunk will take some time to setup.
 ```
@@ -42,4 +42,4 @@ podman run -d --network=host -v open-webui:/app/backend/data -e OLLAMA_BASE_URL=
 
 ollama serve
 ollama pull llama3.2
-```    
+```
