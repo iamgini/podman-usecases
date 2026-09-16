@@ -1,0 +1,6 @@
+langchain==0.3.7
+langchain-community==0.3.7
+langchain-chroma==0.1.4
+langchain-ollama==0.2.0
+chromadb==0.5.20
+pypdf==5.1.0

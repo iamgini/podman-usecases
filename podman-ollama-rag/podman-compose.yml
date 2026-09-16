@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  ollama:
+    image: docker.io/ollama/ollama:latest
+    container_name: pdf-rag-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-models:/root/.ollama   # persistent - keeps pulled models across runs
+    restart: "no"
+
+  ragapp:
+    build:
+      context: .
+      dockerfile: Containerfile
+    container_name: pdf-rag-app
+    depends_on:
+      - ollama
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - LLM_MODEL=llama3.1:8b
+      - EMBED_MODEL=nomic-embed-text
+    volumes:
+      - ./docs:/data/docs:ro,Z           # drop PDF(s) here, read-only
+      - ./prompts:/data/prompts:ro,Z    # optional system prompt files
+      - ./output:/data/output:Z         # answers/summaries land here
+      - ragdb:/data/chroma              # ephemeral - wiped with `down -v`
+    stdin_open: true
+    tty: true
+
+volumes:
+  ollama-models:   # persistent across runs - avoids re-pulling models
+  ragdb:           # destroy after use: podman-compose down -v

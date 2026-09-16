@@ -1,0 +1,20 @@
+# local Claude memory and session state (never commit)
+.claude/
+
+# personal prompt files (keep private)
+prompts/
+
+# generated output
+output/
+
+# uploaded docs (keep generic, don't commit personal PDFs)
+docs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# Podman/Docker leftovers
+*.log
