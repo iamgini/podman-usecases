@@ -1,0 +1,492 @@
+/* Google Sans is not on Google Fonts (proprietary). Plus Jakarta Sans is the closest public match.
+   Font stack: uses Google Sans if installed locally, falls back to Plus Jakarta Sans. */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,700;0,800;1,400&display=swap');
+
+/* ── Base ─────────────────────────────────────────────────── */
+.reveal {
+  font-family: 'Google Sans', 'Plus Jakarta Sans', sans-serif;
+  font-size: 28px;
+  background-color: #ffffff;
+  color: #1a1a1a;
+}
+
+/* ── Slide alignment + top breathing room ─────────────────── */
+.reveal .slides section {
+  text-align: left;
+  padding-top: 1.2em;
+}
+
+.reveal .slides section.vcenter {
+  padding-top: 0;
+}
+
+/* ── Headings ─────────────────────────────────────────────── */
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5 {
+  font-family: 'Google Sans', 'Plus Jakarta Sans', sans-serif;
+  color: #1a1a1a;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: -0.01em;
+}
+
+.reveal h1 { font-size: 250%; font-weight: 800; }
+.reveal h2 { font-size: 160%; font-weight: 700; }
+.reveal h3 { font-size: 110%; font-weight: 700; color: #1a73e8; }
+.reveal h4 { font-size: 100%; font-weight: 500; }
+.reveal h5 { font-size:  90%; font-weight: 500; }
+
+/* ── Body text ────────────────────────────────────────────── */
+.reveal p,
+.reveal li,
+.reveal td,
+.reveal th {
+  font-weight: 400;
+  color: #1a1a1a;
+  text-align: left;
+}
+
+/* ── Bold → accent blue ───────────────────────────────────── */
+.reveal strong {
+  color: #1a73e8;
+  font-weight: 700;
+}
+
+/* ── Section label: standalone *italic* line above heading ── */
+.reveal .slides section > p > em:only-child {
+  color: #1a73e8;
+  font-style: normal;
+  font-size: 0.6em;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: -0.4em;
+}
+
+/* ── Bullets ──────────────────────────────────────────────── */
+.reveal ul {
+  list-style: none;
+  padding-left: 1.2em;
+}
+
+.reveal ul > li::before {
+  content: '▸';
+  color: #1a73e8;
+  font-weight: 900;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+/* ── Blockquote ───────────────────────────────────────────── */
+.reveal blockquote {
+  background: #f8f9ff;
+  border-left: 5px solid #1a73e8;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0.4em 1em;
+  color: #1a1a1a;
+  font-style: normal;
+  width: 95%;
+}
+
+/* ── Code ─────────────────────────────────────────────────── */
+.reveal code {
+  background: #f1f3f4;
+  color: #1a1a1a;
+  border-radius: 3px;
+  padding: 0.1em 0.35em;
+}
+
+.reveal pre {
+  background: #f1f3f4;
+  box-shadow: none;
+  border-left: 4px solid #1a73e8;
+}
+
+/* ── Links ────────────────────────────────────────────────── */
+.reveal a { color: #1a73e8; }
+
+/* ── Controls / progress / slide number ───────────────────── */
+.reveal .controls     { color: #1a73e8; }
+.reveal .progress     { color: #1a73e8; }
+.reveal .slide-number { color: #1a73e8; background: transparent; }
+
+/* ── Global footer ────────────────────────────────────────── */
+.global-footer {
+  position: fixed;
+  top: 0.6em;
+  right: 1em;
+  font-size: 12px;
+  color: #bbb;
+  font-family: 'Google Sans', 'Plus Jakarta Sans', sans-serif;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* ── Per-slide vertical centering ─────────────────────────── */
+.reveal .slides section.vcenter {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* LAYOUT PATTERNS                                             */
+/* ═══════════════════════════════════════════════════════════ */
+
+/* ── 1. Card grid ─────────────────────────────────────────── */
+.reveal .card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8em;
+  margin-top: 0.6em;
+}
+
+.reveal .card-grid.three-col {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.reveal .card {
+  border: 1px solid #e8eaed;
+  border-left: 4px solid #1a73e8;
+  border-radius: 4px;
+  padding: 0.8em 1em;
+  background: #fafbff;
+}
+
+.reveal .card h4 {
+  color: #1a1a1a;
+  margin: 0 0 0.4em 0;
+  font-size: 95%;
+  font-weight: 700;
+}
+
+.reveal .card p {
+  margin: 0;
+  font-size: 0.8em;
+  color: #444;
+  line-height: 1.4;
+}
+
+/* ── 2. Numbered pillars ──────────────────────────────────── */
+.reveal .pillar-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4em 1.4em;
+  margin-top: 0.5em;
+}
+
+.reveal .pillar {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6em;
+  padding: 0.5em 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.reveal .pillar-num {
+  font-size: 1.8em;
+  font-weight: 800;
+  color: #1a73e8;
+  line-height: 1;
+  min-width: 1.6em;
+  opacity: 0.75;
+}
+
+.reveal .pillar-title {
+  font-weight: 700;
+  font-size: 0.88em;
+  color: #1a1a1a;
+  margin-bottom: 0.15em;
+}
+
+.reveal .pillar-desc {
+  font-size: 0.75em;
+  color: #555;
+  line-height: 1.4;
+}
+
+/* ── 3. Split layout ──────────────────────────────────────── */
+.reveal .split-layout {
+  display: grid;
+  grid-template-columns: 34% 1fr;
+  gap: 2.5em;
+  margin-top: 0.3em;
+  align-items: start;
+}
+
+.reveal .split-headline {
+  font-size: 2em;
+  font-weight: 800;
+  color: #1a73e8;
+  line-height: 1.1;
+}
+
+.reveal .split-sub {
+  font-size: 0.75em;
+  color: #999;
+  margin-top: 0.6em;
+  font-style: italic;
+}
+
+.reveal .rule-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.reveal .rule-item {
+  padding: 0.42em 0;
+  border-bottom: 1px solid #efefef;
+  font-size: 0.82em;
+  color: #2a2a2a;
+  line-height: 1.45;
+}
+
+.reveal .rule-item:first-child {
+  border-top: 1px solid #efefef;
+}
+
+/* ── 4. Stat row ──────────────────────────────────────────── */
+.reveal .stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 1em;
+  background: #f1f3f4;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.reveal .stat-item {
+  text-align: center;
+  padding: 1.2em 0.8em;
+  border-right: 1px solid #e0e0e0;
+}
+
+.reveal .stat-item:last-child { border-right: none; }
+
+.reveal .stat-number {
+  display: block;
+  font-size: 2.4em;
+  font-weight: 800;
+  color: #1a73e8;
+  line-height: 1;
+}
+
+.reveal .stat-label {
+  font-size: 0.72em;
+  color: #444;
+  margin-top: 0.5em;
+  line-height: 1.4;
+}
+
+/* ── 5. Two-column list ───────────────────────────────────── */
+.reveal .two-col-list {
+  columns: 2;
+  column-gap: 2.5em;
+  margin-top: 0.6em;
+}
+
+.reveal .two-col-list > div {
+  break-inside: avoid;
+  padding: 0.38em 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.84em;
+  line-height: 1.4;
+}
+
+/* ── 6. Checklist ─────────────────────────────────────────── */
+.reveal .checklist {
+  list-style: none;
+  padding-left: 0;
+  columns: 2;
+  column-gap: 2.5em;
+  margin-top: 0.6em;
+}
+
+.reveal .checklist > li {
+  break-inside: avoid;
+  padding: 0.38em 0 0.38em 1.8em;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.84em;
+  line-height: 1.4;
+  position: relative;
+}
+
+.reveal .checklist > li::before {
+  content: '✓';
+  color: #34a853;
+  font-weight: 900;
+  position: absolute;
+  left: 0.1em;
+  width: auto;
+  margin-left: 0;
+}
+
+.reveal .checklist > li.no::before {
+  content: '✗';
+  color: #ea4335;
+}
+
+/* ── 7. Process steps ─────────────────────────────────────── */
+.reveal .process-steps {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin-top: 0.8em;
+}
+
+.reveal .step {
+  flex: 1;
+  background: #f1f3f4;
+  padding: 0.8em 0.8em 0.8em 1em;
+  position: relative;
+  margin-right: 1.4em;
+  border-left: 3px solid #1a73e8;
+}
+
+.reveal .step::after {
+  content: '▶';
+  position: absolute;
+  right: -1.15em;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ccc;
+  font-size: 0.85em;
+}
+
+.reveal .step:last-child { margin-right: 0; }
+.reveal .step:last-child::after { display: none; }
+
+.reveal .step-num {
+  display: block;
+  font-size: 1.3em;
+  font-weight: 800;
+  color: #1a73e8;
+  line-height: 1;
+  margin-bottom: 0.2em;
+}
+
+.reveal .step-title {
+  font-weight: 700;
+  font-size: 0.85em;
+  color: #1a1a1a;
+  margin-bottom: 0.2em;
+}
+
+.reveal .step-desc {
+  font-size: 0.72em;
+  color: #555;
+  line-height: 1.35;
+}
+
+/* ── 8. Highlight band ────────────────────────────────────── */
+.reveal .highlight-band {
+  background: #1a73e8;
+  color: #ffffff;
+  padding: 0.45em 1em;
+  margin: 0.6em -0.5em;
+  font-weight: 700;
+  font-size: 0.95em;
+  letter-spacing: 0.02em;
+}
+
+.reveal .highlight-band.dark {
+  background: #1a1a1a;
+}
+
+.reveal .highlight-band.light {
+  background: #e8f0fe;
+  color: #1a73e8;
+}
+
+/* ── 9. Full-bleed colored section slides ─────────────────── */
+/* Pair with data-background-color for true full-bleed:         */
+/* <!-- .slide: class="vcenter bg-blue" data-background-color="#1a73e8" --> */
+.reveal .slides section.bg-blue h1,
+.reveal .slides section.bg-blue h2,
+.reveal .slides section.bg-blue h3,
+.reveal .slides section.bg-blue p,
+.reveal .slides section.bg-blue li,
+.reveal .slides section.bg-blue strong {
+  color: #ffffff !important;
+}
+
+.reveal .slides section.bg-blue > p > em:only-child {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.reveal .slides section.bg-blue ul > li::before {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.reveal .slides section.bg-dark h1 {
+  color: #1a73e8 !important;
+}
+
+.reveal .slides section.bg-dark h2,
+.reveal .slides section.bg-dark p,
+.reveal .slides section.bg-dark li {
+  color: #e8eaed !important;
+}
+
+.reveal .slides section.bg-dark strong {
+  color: #1a73e8 !important;
+}
+
+.reveal .slides section.bg-dark > p > em:only-child {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.reveal .slides section.bg-dark ul > li::before {
+  color: #1a73e8 !important;
+}
+
+/* ── 10. Two-column with icon+label headers ───────────────── */
+.reveal .col-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.8em;
+  margin-top: 0.6em;
+}
+
+.reveal .col-header {
+  display: block;
+  font-weight: 700;
+  color: #1a73e8;
+  font-size: 0.95em;
+  padding-bottom: 0.3em;
+  margin-bottom: 0.5em;
+  border-bottom: 2px solid #1a73e8;
+}
+
+/* ── 11. Alternating-row table ────────────────────────────── */
+.reveal table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82em;
+  margin-top: 0.6em;
+}
+
+.reveal table thead th {
+  background-color: #1a1a1a;
+  color: #ffffff !important;
+  font-weight: 700;
+  padding: 0.5em 0.8em;
+}
+
+.reveal table tbody td {
+  padding: 0.42em 0.8em;
+  border-bottom: 1px solid #e8eaed;
+}
+
+.reveal table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.reveal table tbody tr:hover {
+  background-color: #e8f0fe;
+}
