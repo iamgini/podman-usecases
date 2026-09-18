@@ -153,6 +153,22 @@ window.addEventListener('load', function () {
 
 Update the date string when the deck changes. `position: fixed` on `body` means one element persists across all slides.
 
+## Speaker Notes
+
+Add notes to any slide with the `Note:` keyword — only visible in the speaker window, never on the slide:
+
+```markdown
+## Slide Title
+
+Content here.
+
+Note:
+This text only appears in the speaker notes window.
+Write as much as you want — talking points, reminders, context.
+```
+
+Press `S` to open the speaker notes popup — shows current slide, next slide preview, notes, and a timer.
+
 ## Keyboard Shortcuts
 
 | Key | Action |
@@ -162,7 +178,7 @@ Update the date string when the deck changes. `position: fixed` on `body` means 
 | `↓` | Next vertical slide |
 | `O` or `Esc` | Overview mode (thumbnail grid) |
 | `F` | Fullscreen |
-| `S` | Speaker notes |
+| `S` | Speaker notes window |
 
 ## Full Authoring Reference
 
