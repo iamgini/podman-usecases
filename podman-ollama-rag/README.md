@@ -13,19 +13,25 @@ multi-GB models each time; everything else is disposable.
 ```bash
 git clone <this-repo>
 cd podman-ollama-rag
-./local_prep.sh
+./local_prep.sh --pdf /path/to/your.pdf --prompt /path/to/your-prompt.txt --collection mydoc
 ```
 
-`local_prep.sh` starts Ollama, pulls both models, builds the RAG image,
-and creates the `docs/`, `output/`, and `prompts/` directories.
+All three arguments are required:
 
-## Ingest a document
+- `--pdf` — path to the PDF file you want to query (must be a file, not a directory)
+- `--prompt` — path to your system prompt file
+- `--collection` — name for the document collection (e.g. `mydoc`)
 
-Drop your PDF into `./docs/` first, then:
+`local_prep.sh` does the following in one shot:
 
-```bash
-podman-compose run --rm ragapp ingest mydoc.pdf --collection mydoc
-```
+1. Creates `docs/`, `output/`, and `prompts/` directories
+2. Copies the PDF into `./docs/` and the prompt into `./prompts/`
+3. Starts Ollama via `podman-compose`
+4. Pulls the LLM model (`llama3.1:8b`) and embedding model (`nomic-embed-text`)
+5. Builds the `ragapp` container image
+6. Ingests the PDF into the named collection (chunks, embeds, stores in Chroma)
+
+Run it once on a fresh clone or after a full teardown. Model weights are cached in the `ollama-models` volume so subsequent runs skip the multi-GB download.
 
 ## Ask questions
 
@@ -39,7 +45,7 @@ With a custom system prompt:
 podman-compose run --rm ragapp ask "Summarize the key points" --collection mydoc --system-file myprompt.txt
 ```
 
-Drop your prompt files in `./prompts/`. `local_prep.sh` can copy them in automatically.
+Prompt files are copied into `./prompts/` by `local_prep.sh` via the `--prompt` argument.
 
 ## Generate a summary
 

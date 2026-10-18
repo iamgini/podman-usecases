@@ -3,51 +3,116 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "==> Creating local directories..."
-mkdir -p "$SCRIPT_DIR/docs" "$SCRIPT_DIR/output" "$SCRIPT_DIR/prompts"
+usage() {
+    echo "Usage: $0 --pdf <path/to/file.pdf> --prompt <path/to/prompt.txt> --collection <name>"
+    echo ""
+    echo "  --pdf        Path to the PDF file to ingest"
+    echo "  --prompt     Path to the system prompt file"
+    echo "  --collection Collection name to store the ingested document"
+    exit 1
+}
 
-echo "==> Copying prompt files from source..."
-PROMPT_SRC="$HOME/community/workspace/rag-prompt.txt"
-if [ -f "$PROMPT_SRC" ]; then
-    cp "$PROMPT_SRC" "$SCRIPT_DIR/prompts/"
-else
-    echo "    WARNING: Prompt not found at $PROMPT_SRC - skipping"
-fi
+PDF_SRC=""
+PROMPT_SRC=""
+COLLECTION=""
 
-echo "==> Starting Ollama..."
-podman-compose -f "$SCRIPT_DIR/podman-compose.yml" up -d ollama
-
-echo "==> Waiting for Ollama to be ready..."
-until podman exec pdf-rag-ollama ollama list &>/dev/null; do
-    sleep 2
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --pdf)        PDF_SRC="$2";    shift 2 ;;
+        --prompt)     PROMPT_SRC="$2"; shift 2 ;;
+        --collection) COLLECTION="$2"; shift 2 ;;
+        *) echo "Unknown argument: $1"; usage ;;
+    esac
 done
 
-echo "==> Pulling LLM model (llama3.1:8b)..."
+# Validate
+if [ -z "$PDF_SRC" ] || [ -z "$PROMPT_SRC" ] || [ -z "$COLLECTION" ]; then
+    echo "ERROR: --pdf, --prompt, and --collection are all required."
+    usage
+fi
+
+if [ ! -f "$PDF_SRC" ]; then
+    echo "ERROR: PDF file not found: $PDF_SRC"
+    exit 1
+fi
+
+if [ ! -f "$PROMPT_SRC" ]; then
+    echo "ERROR: Prompt file not found: $PROMPT_SRC"
+    exit 1
+fi
+
+PDF_NAME="$(basename "$PDF_SRC")"
+PROMPT_NAME="$(basename "$PROMPT_SRC")"
+
+echo ""
+echo "================================================"
+echo " podman-ollama-rag setup"
+echo "================================================"
+echo " PDF        : $PDF_NAME"
+echo " Prompt     : $PROMPT_NAME"
+echo " Collection : $COLLECTION"
+echo "================================================"
+echo ""
+
+echo "[1/7] Creating local directories (docs, output, prompts)..."
+mkdir -p "$SCRIPT_DIR/docs" "$SCRIPT_DIR/output" "$SCRIPT_DIR/prompts"
+echo "      Done."
+echo ""
+
+echo "[2/7] Copying PDF to ./docs/ ..."
+cp "$PDF_SRC" "$SCRIPT_DIR/docs/"
+echo "      Copied: $PDF_NAME"
+echo ""
+
+echo "[3/7] Copying prompt file to ./prompts/ ..."
+cp "$PROMPT_SRC" "$SCRIPT_DIR/prompts/"
+echo "      Copied: $PROMPT_NAME"
+echo ""
+
+echo "[4/7] Starting Ollama container (this may pull the image if not cached)..."
+podman-compose -f "$SCRIPT_DIR/podman-compose.yml" up -d ollama
+echo "      Ollama container started. Waiting for it to be ready..."
+until podman exec pdf-rag-ollama ollama list &>/dev/null; do
+    echo -n "."
+    sleep 2
+done
+echo ""
+echo "      Ollama is ready."
+echo ""
+
+echo "[5/7] Pulling models (this may take a while on first run)..."
+echo "      Pulling LLM model: llama3.1:8b ..."
 podman exec pdf-rag-ollama ollama pull llama3.1:8b
-
-echo "==> Pulling embedding model (nomic-embed-text)..."
+echo "      Pulling embedding model: nomic-embed-text ..."
 podman exec pdf-rag-ollama ollama pull nomic-embed-text
+echo "      Models ready."
+echo ""
 
-echo "==> Building RAG image..."
+echo "[6/7] Building ragapp container image..."
 podman-compose -f "$SCRIPT_DIR/podman-compose.yml" build ragapp
+echo "      Build complete."
+echo ""
 
+echo "[7/7] Ingesting PDF into collection '$COLLECTION' ..."
+echo "      This chunks and embeds the document - may take a few minutes."
+podman-compose -f "$SCRIPT_DIR/podman-compose.yml" run --rm ragapp ingest "$PDF_NAME" --collection "$COLLECTION"
+echo "      Ingestion complete."
 echo ""
+
 echo "================================================"
-echo " Stack is ready. Next steps (manual):"
+echo " Stack is ready!"
 echo "================================================"
 echo ""
-echo " 1. Copy your PDF into the docs folder:"
-echo "    cp /path/to/your.pdf $SCRIPT_DIR/docs/"
+echo " Ask a question (plain):"
+echo "    podman-compose run --rm ragapp ask \"What is this document about?\" --collection $COLLECTION"
 echo ""
-echo " 2. Ingest the PDF:"
-echo "    podman-compose run --rm ragapp ingest your.pdf --collection <name>"
+echo " Ask with your custom prompt:"
+echo "    podman-compose run --rm ragapp ask \"Summarize the key points\" \\"
+echo "        --collection $COLLECTION --system-file $PROMPT_NAME"
 echo ""
-echo " 3. Ask a question:"
-echo "    podman-compose run --rm ragapp ask \"your question\" --collection <name>"
-echo "    podman-compose run --rm ragapp ask \"your question\" --collection <name> --system-file myprompt.txt"
+echo " Generate a summary:"
+echo "    podman-compose run --rm ragapp summarize --collection $COLLECTION"
+echo "    # saved to ./output/$COLLECTION-summary.md"
 echo ""
-echo " 4. Summarize the document:"
-echo "    podman-compose run --rm ragapp summarize --collection <name>"
-echo ""
-echo " Tip: output files land in $SCRIPT_DIR/output/"
+echo " Tip: Output files land in $SCRIPT_DIR/output/"
 echo "================================================"

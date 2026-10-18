@@ -87,11 +87,9 @@ def cmd_ask(args):
 
     llm = get_llm()
 
-    if args.system_file:
-        prompt_path = os.path.join(PROMPTS_DIR, args.system_file)
-        if not os.path.exists(prompt_path):
-            print(f"Prompt file not found: {prompt_path}", file=sys.stderr)
-            sys.exit(1)
+    system_file = args.system_file or "rag-prompt.txt"
+    prompt_path = os.path.join(PROMPTS_DIR, system_file)
+    if os.path.exists(prompt_path):
         with open(prompt_path) as f:
             system_prompt = f.read()
         messages = [
