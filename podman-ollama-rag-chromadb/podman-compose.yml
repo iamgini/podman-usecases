@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  ollama:
+    image: docker.io/ollama/ollama:latest
+    container_name: aap-rag-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-models:/root/.ollama
+    restart: "no"
+
+  ragapp:
+    build:
+      context: .
+      dockerfile: Containerfile
+    container_name: aap-rag-app
+    depends_on:
+      - ollama
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - LLM_MODEL=llama3.1:8b
+      - EMBED_MODEL=nomic-embed-text
+    volumes:
+      - ${AAP_DOCS_DIR:-./docs}:/data/docs:ro,Z      # set AAP_DOCS_DIR in .env
+      - ./output:/data/output:Z
+      - ./app/prompts:/data/prompts:ro,Z
+      - ragdb:/data/chroma
+      - ${DESIGNS_DIR:-./designs}:/data/designs:ro,Z  # set DESIGNS_DIR in .env
+    stdin_open: true
+    tty: true
+
+  ragapi:
+    build:
+      context: .
+      dockerfile: Containerfile
+    container_name: aap-rag-api
+    depends_on:
+      - ollama
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - LLM_MODEL=llama3.1:8b
+      - EMBED_MODEL=nomic-embed-text
+    volumes:
+      - ragdb:/data/chroma
+    ports:
+      - "8000:8000"
+    entrypoint: ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
+    restart: unless-stopped
+
+volumes:
+  ollama-models:
+  ragdb:
