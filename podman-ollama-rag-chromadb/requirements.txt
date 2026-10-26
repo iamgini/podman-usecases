@@ -7,3 +7,4 @@ chromadb==0.5.20
 pypdf==5.1.0
 fastapi==0.115.5
 uvicorn==0.32.1
+mcp[cli]>=1.0.0,<2.0.0

@@ -5,8 +5,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 COMPOSE_FILE="$SCRIPT_DIR/podman-compose.yml"
 ENV_FILE="$SCRIPT_DIR/.env"
-MCP_SERVER="$SCRIPT_DIR/mcp/server.py"
-OLLAMA_CONTAINER="aap-rag-ollama"
+OLLAMA_CONTAINER="local-rag-ollama"
 LLM_MODEL="llama3.1:8b"
 EMBED_MODEL="nomic-embed-text"
 RAGDB_VOLUME="podman-ollama-rag-chromadb_ragdb"
@@ -54,20 +53,15 @@ if [ -z "$COMPOSE" ]; then
 fi
 ok "podman-compose at $COMPOSE"
 
-# ── 3. check / install MCP server deps ────────────────────────────────────────
-print_header "3/7  Checking MCP server dependencies"
-if ! python3 -c "import mcp, httpx" &>/dev/null; then
-    info "Installing mcp + httpx for MCP server..."
-    pip3 install --quiet mcp httpx
-fi
-ok "mcp + httpx ready"
+# ── 3. (reserved) ─────────────────────────────────────────────────────────────
+# MCP server is built into the ragapi container — no separate process needed
 
 # ── 4. configure .env ─────────────────────────────────────────────────────────
 print_header "4/7  Checking .env"
 if [ ! -f "$ENV_FILE" ]; then
     cp "$SCRIPT_DIR/.env.example" "$ENV_FILE"
-    warn ".env created from .env.example — edit it to set AAP_DOCS_DIR before continuing."
-    warn "  AAP_DOCS_DIR should point to the directory containing your AAP PDF files."
+    warn ".env created from .env.example — edit it to set DOCS_DIR before continuing."
+    warn "  DOCS_DIR should point to the directory containing your AAP PDF files."
     echo ""
     echo "  Edit: $ENV_FILE"
     echo "  Then re-run: $0"
@@ -75,13 +69,13 @@ if [ ! -f "$ENV_FILE" ]; then
 fi
 
 source "$ENV_FILE"
-AAP_DOCS_DIR="${AAP_DOCS_DIR:-}"
-if [ -z "$AAP_DOCS_DIR" ] || [ ! -d "$AAP_DOCS_DIR" ]; then
-    die "AAP_DOCS_DIR not set or directory not found in .env\n  Current value: '${AAP_DOCS_DIR:-unset}'"
+DOCS_DIR="${DOCS_DIR:-}"
+if [ -z "$DOCS_DIR" ] || [ ! -d "$DOCS_DIR" ]; then
+    die "DOCS_DIR not set or directory not found in .env\n  Current value: '${DOCS_DIR:-unset}'"
 fi
-PDF_COUNT=$(find "$AAP_DOCS_DIR" -maxdepth 1 -name "*.pdf" | wc -l | tr -d ' ')
-[ "$PDF_COUNT" -eq 0 ] && die "No PDFs found in AAP_DOCS_DIR: $AAP_DOCS_DIR"
-ok ".env valid — AAP_DOCS_DIR has $PDF_COUNT PDF(s)"
+PDF_COUNT=$(find "$DOCS_DIR" -maxdepth 1 -name "*.pdf" | wc -l | tr -d ' ')
+[ "$PDF_COUNT" -eq 0 ] && die "No PDFs found in DOCS_DIR: $DOCS_DIR"
+ok ".env valid — DOCS_DIR has $PDF_COUNT PDF(s)"
 
 # ── 5. start Ollama and pull models ───────────────────────────────────────────
 print_header "5/7  Starting Ollama"
@@ -135,25 +129,24 @@ until curl -sf http://localhost:8000/health &>/dev/null; do
 done
 echo ""
 ok "HTTP API running at http://localhost:8000"
+ok "MCP server available at http://localhost:8000/mcp/sse"
 
-# ── MCP server registration check ─────────────────────────────────────────────
+# ── MCP registration check ────────────────────────────────────────────────────
 CLAUDE_SETTINGS="$HOME/.claude/settings.json"
-if [ -f "$CLAUDE_SETTINGS" ] && grep -q "aap-docs" "$CLAUDE_SETTINGS" 2>/dev/null; then
+if [ -f "$CLAUDE_SETTINGS" ] && grep -q "local-rag" "$CLAUDE_SETTINGS" 2>/dev/null; then
     ok "MCP server already registered in Claude Code"
 else
     echo ""
-    warn "MCP server not registered in Claude Code."
-    warn "Add this to $CLAUDE_SETTINGS under \"mcpServers\":"
+    warn "MCP server not yet registered in Claude Code."
+    warn "Add this to $CLAUDE_SETTINGS under \"mcpServers\" then restart Claude Code:"
     echo ""
     cat <<MCP_SNIPPET
-    "aap-docs": {
-      "command": "$(command -v python3)",
-      "args": ["$MCP_SERVER"],
-      "description": "Local AAP documentation RAG"
+    "local-rag": {
+      "type": "sse",
+      "url": "http://localhost:8000/mcp/sse"
     }
 MCP_SNIPPET
     echo ""
-    warn "Then restart Claude Code."
 fi
 
 # ── summary ───────────────────────────────────────────────────────────────────
@@ -164,7 +157,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo ""
 echo " HTTP API:   http://localhost:8000/ask"
 echo " Health:     http://localhost:8000/health"
-echo " MCP tool:   ask_aap_docs  (in Claude Code after restart)"
+echo " MCP server: http://localhost:8000/mcp/sse  (Claude Code native tool)"
 echo ""
 echo " Quick test:"
 echo "   curl -s -X POST http://localhost:8000/ask \\"

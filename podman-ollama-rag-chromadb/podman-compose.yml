@@ -3,7 +3,7 @@ version: "3.8"
 services:
   ollama:
     image: docker.io/ollama/ollama:latest
-    container_name: aap-rag-ollama
+    container_name: local-rag-ollama
     ports:
       - "11434:11434"
     volumes:
@@ -14,7 +14,7 @@ services:
     build:
       context: .
       dockerfile: Containerfile
-    container_name: aap-rag-app
+    container_name: local-rag-app
     depends_on:
       - ollama
     environment:
@@ -22,7 +22,7 @@ services:
       - LLM_MODEL=llama3.1:8b
       - EMBED_MODEL=nomic-embed-text
     volumes:
-      - ${AAP_DOCS_DIR:-./docs}:/data/docs:ro,Z      # set AAP_DOCS_DIR in .env
+      - ${DOCS_DIR:-./docs}:/data/docs:ro,Z           # set DOCS_DIR in .env
       - ./output:/data/output:Z
       - ./app/prompts:/data/prompts:ro,Z
       - ragdb:/data/chroma
@@ -34,7 +34,7 @@ services:
     build:
       context: .
       dockerfile: Containerfile
-    container_name: aap-rag-api
+    container_name: local-rag-api
     depends_on:
       - ollama
     environment:

@@ -9,21 +9,27 @@ AI agents and LLMs frequently need to reference AAP documentation for accurate, 
 ## Architecture
 
 ```
-AI Agent (Claude Code, MCP)
+Claude Code (AI agent)
         │
         ▼
-MCP Server (host process)        ← native tool for Claude Code
+mcp/server.py  (host-side stdio process)     ← spawned by Claude Code on startup
+  └── calls POST /ask on the API
         │
         ▼
-FastAPI HTTP API  (localhost:8000)  ← any agent via HTTP/curl
+local-rag-api container  (localhost:8000)
+  ├── FastAPI HTTP API  ← any agent via POST /ask or curl
+  ├── Query rewriting  ← LLM rephrases question before vector search
+  ├── ChromaDB client  ← queries the persisted vector index
+  └── LangChain + Ollama embeddings + LLM
         │
         ▼
-ragapi container
-  ├── ChromaDB (persisted volume)  ← vector search over AAP docs
-  └── Ollama container (llama3.1:8b + nomic-embed-text)  ← LLM + embeddings
+local-rag-ollama container  (localhost:11434)
+  ├── llama3.1:8b          ← LLM, CPU-only
+  └── nomic-embed-text     ← embedding model
 ```
 
-- **MCP Server** — thin host-side process; exposes `ask_aap_docs` as a native Claude Code tool
+- **MCP server** — `mcp/server.py` runs on the host; Claude Code spawns it as a stdio process; it calls the HTTP API
+- **Query rewriting** — the API rewrites questions into documentation terminology before vector search, improving retrieval accuracy
 - **HTTP API** — FastAPI at `localhost:8000`; usable by any agent via `POST /ask`
 - **CLI** — `podman-compose run --rm ragapp ask "..."` for ad-hoc queries
 - All components run locally. No cloud, no API keys, no internet at query time.
@@ -42,7 +48,7 @@ ragapi container
 
 ## Getting the AAP Documentation
 
-Download the official AAP PDF documentation directly from [docs.redhat.com](https://docs.redhat.com) — no login required. Download all guides for the AAP versions you need and place them in the `docs/` directory (or set `AAP_DOCS_DIR` in `.env` to an existing folder).
+Download the official AAP PDF documentation directly from [docs.redhat.com](https://docs.redhat.com) — no login required. Download all guides for the AAP versions you need and place them in the `docs/` directory (or set `DOCS_DIR` in `.env` to an existing folder).
 
 Example for AAP 2.7:
 
@@ -71,13 +77,12 @@ Two scripts handle everything:
 `local_start.sh` will:
 1. Check Podman is installed and running
 2. Install `podman-compose` via pip3 if missing
-3. Install MCP server dependencies (`mcp`, `httpx`)
-4. Create `.env` from `.env.example` on first run (then exit for you to fill it in)
-5. Pull Ollama models on first run (~5 GB, skipped if already present)
-6. Build container images
-7. Ingest PDFs into ChromaDB (skipped if already done)
-8. Start the HTTP API at `localhost:8000`
-9. Print MCP registration snippet if not yet registered in Claude Code
+3. Create `.env` from `.env.example` on first run (then exit for you to fill it in)
+4. Pull Ollama models on first run (~5 GB, skipped if already present)
+5. Build container images
+6. Ingest PDFs into ChromaDB (skipped if already done)
+7. Start the HTTP API + MCP server at `localhost:8000`
+8. Print MCP registration snippet if not yet registered in Claude Code
 
 ---
 
@@ -88,7 +93,7 @@ Two scripts handle everything:
 ```bash
 cp .env.example .env
 # Edit .env and set your local paths:
-#   AAP_DOCS_DIR=/path/to/your/aap-docs
+#   DOCS_DIR=/path/to/your/aap-docs
 ```
 
 ### 2. Start Ollama
@@ -100,8 +105,8 @@ podman-compose up -d ollama
 ### 3. Pull models (first run only — ~5 GB)
 
 ```bash
-podman exec aap-rag-ollama ollama pull llama3.1:8b
-podman exec aap-rag-ollama ollama pull nomic-embed-text
+podman exec local-rag-ollama ollama pull llama3.1:8b
+podman exec local-rag-ollama ollama pull nomic-embed-text
 ```
 
 ### 4. Build the app images
@@ -132,32 +137,22 @@ The API is now available at `http://localhost:8000`.
 
 ### Option A — MCP (native Claude Code tool)
 
-Uses [`mcpo`](https://github.com/open-webui/mcpo) to auto-convert the RAG API's OpenAPI spec into an MCP server — no Python script needed.
+`mcp/server.py` is a lightweight host-side stdio server that calls the HTTP API. Claude Code spawns it as a subprocess — no container ports or SSE connections involved.
 
-**1. Start mcpo** (requires `uv` — `brew install uv` or `pip install uv`):
+**Register (one-time):**
 
 ```bash
-uvx mcpo --port 8001 --api-base-url http://localhost:8000
+claude mcp add --scope user local-rag /usr/local/bin/python3 \
+  /path/to/podman-ollama-rag-chromadb/mcp/server.py
 ```
 
-Run this in the background or add it to your startup script alongside `podman-compose up`.
+Replace `/path/to/` with the actual clone path. Requires `mcp` and `httpx` on the host:
 
-**2. Register in Claude Code** — add to `~/.claude/settings.json` (global) or `.claude/settings.json` (project):
-
-```json
-{
-  "mcpServers": {
-    "aap-rag": {
-      "type": "sse",
-      "url": "http://localhost:8001/sse"
-    }
-  }
-}
+```bash
+pip3 install "mcp[cli]<2.0.0" httpx
 ```
 
-**3. Restart Claude Code** and run `/mcp` to confirm `aap-rag` is listed with an `ask` tool.
-
-Claude will now call `ask` automatically when working on AAP-related docs — no Bash or curl needed.
+Restart Claude Code and run `/mcp` to confirm `local-rag` is listed with an `ask_rag` tool. Claude will call it automatically — no Bash or curl needed.
 
 ### Option B — HTTP API (any agent)
 
@@ -215,7 +210,7 @@ All commands accept `--collection <name>` to segment by version or topic (e.g. `
 Models and the ChromaDB index persist in named volumes. Just restart the services — no re-ingestion needed:
 
 ```bash
-podman-compose up -d ollama ragapi
+./local_start.sh
 ```
 
 ---
